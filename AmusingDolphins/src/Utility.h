@@ -29,7 +29,7 @@ int main()\
 	#define AMUSING_DOLPHINS_LOG(x) 
 
 #else
-#define AMUSING_DOLPHINS_ERROR(x) 
-#define AMUSING_DOLPHINS_LOG(x) 
+	#define AMUSING_DOLPHINS_ERROR(x) 
+	#define AMUSING_DOLPHINS_LOG(x) 
 
 #endif

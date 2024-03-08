@@ -102,10 +102,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);AMUSING_DOLPHINS_LIB;AMUSING_DOLPHINS_MS_COMPILER;AMUSING_DOLPHINS_DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);AMUSING_DOLPHINS_LIB;AMUSING_DOLPHINS_MS_COMPILER;AMUSING_DOLPHINS_DEBUG;AD_GLFW_WINDOW</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)glfw\include;$(SolutionDir)AmusingDolphins\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,10 +120,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);AMUSING_DOLPHINS_LIB;AMUSING_DOLPHINS_MS_COMPILER</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);AMUSING_DOLPHINS_LIB;AMUSING_DOLPHINS_MS_COMPILER;AD_GLFW_WINDOW</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)glfw\include;$(SolutionDir)AmusingDolphins\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,15 +137,25 @@
   <ItemGroup>
     <ClInclude Include="include\AmusingDolphins.h" />
     <ClInclude Include="src\ADA.h" />
+    <ClInclude Include="src\ADWindow.h" />
+    <ClInclude Include="src\codeGLFW\WindowGLFW.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Utility.h" />
+    <ClInclude Include="src\WindowImpl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ADA.cpp" />
+    <ClCompile Include="src\ADWindow.cpp" />
+    <ClCompile Include="src\codeGLFW\WindowGLFW.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\glfw_build\src\glfw.vcxproj">
+      <Project>{8cf6a66b-7253-39e8-84c0-cb277ab24081}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

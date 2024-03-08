@@ -4,10 +4,17 @@
 
 class MyGame : public AmusingDolphins::AmusingDolphinsApplication
 {
+	virtual void Initialize() 
+	{
+		
+	}
 	virtual void OnUpdate() override
 	{
-		std::cout << "engine is running" << std::endl;
+		std::cout << "Window width " <<AmusingDolphins::AmusingDolphinsWindow::GetWindow()->GetWidth() << std::endl;
 	}
+private:
+	
+
 };
 
 START_GAME(MyGame)
