@@ -51,4 +51,16 @@ namespace AmusingDolphins {
 	{
 		return mWindow->GetHeight();
 	}
+	void AmusingDolphinsWindow::SetKeyPressedCallback(std::function<void(const KeyPressed&)> callbackFunct)
+	{
+		mWindow->SetKeyPressedCallback(callbackFunct);
+	}
+	void AmusingDolphinsWindow::SetKeyReleasedCallback(std::function<void(const KeyReleased&)> callbackFunct)
+	{
+		mWindow->SetKeyReleasedCallback(callbackFunct);
+	}
+	void AmusingDolphinsWindow::SetWindowCloseCallback(std::function<void()> callbackFunct)
+	{
+		mWindow->SetWindowCloseCallback(callbackFunct);
+	}
 }

@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "WindowImpl.h"
 #include "Utility.h"
+#include "AmusingDolphinsEvents.h"
 
 namespace AmusingDolphins {
 	class AMUSING_DOLPHINS_API AmusingDolphinsWindow 
@@ -16,6 +17,10 @@ namespace AmusingDolphins {
 		void Create(int width, int height);
 		int GetWidth() const;
 		int GetHeight() const;
+
+		void SetKeyPressedCallback(std::function<void(const KeyPressed&)> callbackFunct);
+		void SetKeyReleasedCallback(std::function<void(const KeyReleased&)> callbackFunct);
+		void SetWindowCloseCallback(std::function<void()> callbackFunct);
 
 	private:
 		inline static AmusingDolphinsWindow* mInstance{ nullptr };

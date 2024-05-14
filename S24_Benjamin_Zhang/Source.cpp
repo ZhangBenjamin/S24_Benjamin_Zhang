@@ -10,7 +10,7 @@ class MyGame : public AmusingDolphins::AmusingDolphinsApplication
 	}
 	virtual void OnUpdate() override
 	{
-		std::cout << "Window width " <<AmusingDolphins::AmusingDolphinsWindow::GetWindow()->GetWidth() << std::endl;
+		//std::cout << "Window width " <<AmusingDolphins::AmusingDolphinsWindow::GetWindow()->GetWidth() << std::endl;
 	}
 private:
 	

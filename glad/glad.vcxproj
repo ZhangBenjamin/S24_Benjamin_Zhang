@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e6c5a051-5f3c-4d75-bdfa-64eab6195c3c}</ProjectGuid>
-    <RootNamespace>AmusingDolphins</RootNamespace>
+    <ProjectGuid>{4566adec-71ea-45b8-8e8d-8106f0127638}</ProjectGuid>
+    <RootNamespace>glad</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,13 +40,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -102,12 +102,10 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);AMUSING_DOLPHINS_LIB;AMUSING_DOLPHINS_MS_COMPILER;AMUSING_DOLPHINS_DEBUG;AD_GLFW_WINDOW;AMUSING_DOLPHINS_OPENGL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)glfw\include;$(SolutionDir)glad\include;$(SolutionDir)stbi;$(SolutionDir)AmusingDolphins\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)glad/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,12 +118,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);AMUSING_DOLPHINS_LIB;AMUSING_DOLPHINS_MS_COMPILER;AD_GLFW_WINDOW;AMUSING_DOLPHINS_OPENGL</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)glfw\include;$(SolutionDir)glad\include;$(SolutionDir)stbi;$(SolutionDir)AmusingDolphins\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)glad/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,53 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\AmusingDolphins.h" />
-    <ClInclude Include="src\ADA.h" />
-    <ClInclude Include="src\ADWindow.h" />
-    <ClInclude Include="src\AmusingDolphinsEvents.h" />
-    <ClInclude Include="src\AmusingDolphinsKeys.h" />
-    <ClInclude Include="src\codeGLFW\WindowGLFW.h" />
-    <ClInclude Include="src\codeOpenGL\ImageOpenGL.h" />
-    <ClInclude Include="src\codeOpenGL\RendererOpenGL.h" />
-    <ClInclude Include="src\codeOpenGL\ShaderOpenGL.h" />
-    <ClInclude Include="src\image.h" />
-    <ClInclude Include="src\ImageImplement.h" />
-    <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\RendererImplement.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\ShaderImplement.h" />
-    <ClInclude Include="src\Unit.h" />
-    <ClInclude Include="src\Utility.h" />
-    <ClInclude Include="src\WindowImpl.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\ADA.cpp" />
-    <ClCompile Include="src\ADWindow.cpp" />
-    <ClCompile Include="src\AmusingDolphinsEvents.cpp" />
-    <ClCompile Include="src\codeGLFW\WindowGLFW.cpp" />
-    <ClCompile Include="src\codeOpenGL\ImageOpenGL.cpp" />
-    <ClCompile Include="src\codeOpenGL\RendererOpenGL.cpp" />
-    <ClCompile Include="src\codeOpenGL\ShaderOpenGL.cpp" />
-    <ClCompile Include="src\Image.cpp" />
-    <ClCompile Include="src\pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Unit.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\glad\glad.vcxproj">
-      <Project>{4566adec-71ea-45b8-8e8d-8106f0127638}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\glfw_build\src\glfw.vcxproj">
-      <Project>{8cf6a66b-7253-39e8-84c0-cb277ab24081}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\stbi\stbi.vcxproj">
-      <Project>{f30c0444-d442-487f-a0f6-99734a47b6f2}</Project>
-    </ProjectReference>
+    <ClCompile Include="src\glad.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

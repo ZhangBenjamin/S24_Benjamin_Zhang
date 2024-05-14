@@ -34,7 +34,7 @@ endif()
 
 target_include_directories(AmusingDolphins PRIVATE ../glfw/include)
 
-target_include_directories(AmusingDolphins PRIVATE ../AmusingDolphins)
+target_include_directories(AmusingDolphins PRIVATE ../AmusingDolphins/src)
 
 target_precompile_headers(AmusingDolphins PRIVATE src/pch.h)
 
