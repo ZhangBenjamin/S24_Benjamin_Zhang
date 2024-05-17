@@ -1,4 +1,6 @@
+#include "pch.h"
 #include "AmusingDolphinsEvents.h"
+
 
 namespace AmusingDolphins
 {

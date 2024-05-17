@@ -1,4 +1,5 @@
 #pragma once
+#include "AmusingDolphinsEvents.h"
 
 namespace AmusingDolphins {
 	class WindowImpl 

@@ -38,10 +38,12 @@ namespace AmusingDolphins {
 		int x{ 50 };
 		
 		SetKeyPressedCallback([&x](const KeyPressed& event) {
-			if (event.GetKeyCode() == AMUSING_DOLPHINS_KEY_RIGHT)
+			if (event.GetKeyCode() == AD_KEY_RIGHT)
 				x += 50;
+			else if (event.GetKeyCode() == AD_KEY_LEFT)
+				x -= 50;
 		});
-
+		 
 		while (true)
 		{
 
