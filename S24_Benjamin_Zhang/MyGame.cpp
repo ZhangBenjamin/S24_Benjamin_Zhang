@@ -17,8 +17,6 @@ void MyGame::OnUpdate()
 
 void MyGame::Initialize()
 {
-	
-
 }
 
 void MyGame::RunGame()
@@ -41,6 +39,7 @@ void MyGame::RunGame()
 				location_x -= 50;
 			}
 			ChangeDirection(Right);
+			std::cout << "Moved Right" << std::endl;
 		}
 		else if (event.GetKeyCode() == AD_KEY_LEFT) {
 			ChangeStateOfTank(Moving);
@@ -49,6 +48,7 @@ void MyGame::RunGame()
 				location_x += 50;
 			}
 			ChangeDirection(Left);
+			std::cout << "Moved Left" << std::endl;
 		}
 		else if (event.GetKeyCode() == AD_KEY_UP) {
 			ChangeStateOfTank(Moving);
@@ -57,6 +57,7 @@ void MyGame::RunGame()
 				location_y -= 50;
 			}
 			ChangeDirection(Up);
+			std::cout << "Moved Up" << std::endl;
 		}
 		else if (event.GetKeyCode() == AD_KEY_DOWN) {
 			ChangeStateOfTank(Moving);
@@ -65,20 +66,59 @@ void MyGame::RunGame()
 				location_y += 50;
 			}
 			ChangeDirection(Down);
+			std::cout << "Moved Down" << std::endl;
 		}
 		else if (event.GetKeyCode() == AD_KEY_SPACE) {
+			std::cout << "Pressed Space" << std::endl;
 			ChangeStateOfTank(Shooting);
-			Shoot(CurrentDirection(), TankAction());
+			if (!isShooting) {
+				isShooting = true;
+				location_bullet_x = location_x + 25;
+				location_bullet_y = location_y + 30;
+				direction_bullet = CurrentDirection();
+			}
+		}
+		else if (event.GetKeyCode() == AD_KEY_Q) {
+			std::cout << "Quit Game" << std::endl;
+			AmusingDolphins::Renderer::ClearScreen();
 		}
 		else {
 			ChangeStateOfTank(Idle);
 		}
 		});
-	//AmusingDolphins::Renderer::Draw(tank_bullet, 150, 150);
-	RandomizeZombieSpawn();
-	
-	
+	if (isShooting) {
+		switch (direction_bullet) {
+		case Left:
+			location_bullet_x -= 20;
+			if (location_bullet_x < 0) isShooting = false;
+			break;
+		case Right:
+			location_bullet_x += 20;
+			if (location_bullet_x > 1000) isShooting = false;
+			break;
+		case Up:
+			location_bullet_y += 20;
+			if (location_bullet_y > 800) isShooting = false;
+			break;
+		case Down:
+			location_bullet_y -= 20;
+			if (location_bullet_y < 0) isShooting = false;
+			break;
+		}
+		AmusingDolphins::Renderer::Draw(tank_bullet, location_bullet_x, location_bullet_y);
 
+		if (BulletCollidesWIthZombie()) {
+			isShooting = false;
+			std::cout << "Bullet hit a zombie!" << std::endl;
+		}
+	}
+	RandomizeZombieSpawn();
+	if (CollidesWithZombie()) {
+		std::cout << "Tank hit a zombie!" << std::endl;
+		location_x = 0;
+		location_y = 0;
+	}	
+	//Movement of tank
 	if (CurrentDirection() == Left) {
 		AmusingDolphins::Renderer::Draw(tank_left, GetLocationX(), GetLocationY());
 	}
@@ -93,6 +133,8 @@ void MyGame::RunGame()
 		AmusingDolphins::Renderer::Draw(tank_down, GetLocationX(), GetLocationY());
 	}
 	
+
+
 	
 
 
@@ -140,26 +182,6 @@ void MyGame::ChangeLocationOfTank(const int& x, const int& y)
 	location_y = y;
 }
 
-void MyGame::Shoot(const Direction& direction, const StateOfGame& state) const
-{
-	AmusingDolphins::Image tank_bullet("..\\Assets\\Textures\\cannonball.png");
-	AmusingDolphins::Renderer::Draw(tank_bullet, 100, 100);
-
-	if (direction == Left) {
-		AmusingDolphins::Renderer::Draw(tank_bullet, 100, 100);
-	}
-	else if (direction == Right) {
-		AmusingDolphins::Renderer::Draw(tank_bullet, 150, 150);
-	}
-	else if (direction == Up) {
-		AmusingDolphins::Renderer::Draw(tank_bullet, 200, 200);
-	} 
-	else if (direction == Down) {
-		AmusingDolphins::Renderer::Draw(tank_bullet, 250, 250);
-	}
-	
-}
-
 StateOfGame MyGame::TankAction() const
 {
 	return StateOfTank;
@@ -172,25 +194,71 @@ void MyGame::ChangeStateOfTank(StateOfGame state)
 
 void MyGame::RandomizeZombieSpawn()
 {
-
 	AmusingDolphins::Image Zombie("..\\Assets\\Textures\\Zombie.png");
-	
 	std::default_random_engine generator;
-	std::uniform_int_distribution<int> random_x(1, 1000);
-	std::uniform_int_distribution<int> random_y(1, 800);
-	ChangeLocationOfZombie(random_x(generator), random_y(generator));
-	AmusingDolphins::Renderer::Draw(Zombie, location_zombie_x, location_zombie_y);
+	std::uniform_int_distribution<int> random_x(200, 900);
+	std::uniform_int_distribution<int> random_y(200, 600);
+
+	for (int i = 0; i < 10; ++i) {
+		ChangeLocationOfZombie(random_x(generator), random_y(generator));
+		position_zombie.push_back({ location_zombie_x, location_zombie_y });
+		AmusingDolphins::Renderer::Draw(Zombie, location_zombie_x, location_zombie_y);
+	}
+	
+	
+	
 
 	
 }
 
 bool MyGame::CollidesWithZombie()
 {
-	if (GetLocationX() - GetLocationZombieX() == 50 || GetLocationY() - GetLocationZombieY() == 50
-		|| GetLocationX() - GetLocationZombieX() == -50 || GetLocationY() - GetLocationZombieY() == -50) {
-		return true;
+	int tank_size = 50; 
+	int zombie_size = 50; 
+
+	for (const auto& pos : position_zombie) {
+		location_zombie_x = pos.first;
+		location_zombie_y = pos.second;
+
+		if (location_x < location_zombie_x + zombie_size &&
+			location_x + tank_size > location_zombie_x &&
+			location_y < location_zombie_y + zombie_size &&
+			location_y + tank_size > location_zombie_y) {
+			return true;
+		}
 	}
 	return false;
 	
 }
 
+bool MyGame::BulletCollidesWIthZombie()
+{
+	int bullet_size = 20; 
+	int zombie_size = 50; 
+
+	for (const auto& pos : position_zombie) {
+		location_zombie_x = pos.first;
+		location_zombie_y = pos.second;
+
+		if (location_bullet_x < location_zombie_x + zombie_size &&
+			location_bullet_x + bullet_size > location_zombie_x &&
+			location_bullet_y < location_zombie_y + zombie_size &&
+			location_bullet_y + bullet_size > location_zombie_y) {
+			DeleteZombie(location_zombie_x, location_zombie_y);
+			return true;
+		}
+	}
+	return false;
+}
+
+void MyGame::DeleteZombie(const int& x, const int& y)
+{
+	for (int i = 0; i < position_zombie.size(); ++i) {
+		if (position_zombie[i].first == x && position_zombie[i].second == y) {
+			position_zombie.erase(position_zombie.begin() + i);
+			break;
+		}
+	}
+}
+
+    

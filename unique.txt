@@ -1,0 +1,15 @@
+LIST OF FEATURES (ALSO CONTAINS FEATURES THAT I WANTED TO ADD BUT DIDNT HAVE TIME TO COMPLETE)
+
+Tank Features: 
+- It can be controlled by pressing the arrow keys, but cant get passed the border of the background
+- It can shoot out bullets by pressing space and it will fly out based on a specific direction
+- It will get teleported back to 0, 0 if it touches the zombie
+
+Zombie Features: 
+- 10 Zombies will randomly spawn within the game screen, and it can overlap. 
+- Each zombie can move in a random direction within some time //(DIDNT COMPLETE)
+- Once the bullet hits, it will be destroyed
+
+Other Features:
+- There will be a timer shown in the top right and it will count up by seconds //(DIDNT COMPLETE, BUT FILE AND ASSET EXISTS)
+- There will be obstacles that will stop the bullet in its trajectory //(DIDNT COMPLETE)

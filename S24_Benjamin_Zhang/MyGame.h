@@ -2,6 +2,7 @@
 #include "AmusingDolphins.h"
 #include <iostream>
 #include <random>
+#include <unordered_map>
 
 enum StateOfGame {
 	Idle, //The player is currently idle
@@ -38,10 +39,11 @@ public:
 	void ChangeLocationOfTank(const int& x, const int& y);
 	void ChangeStateOfTank(StateOfGame state);
 
-	//Other Functions
-	void Shoot(const Direction& direction, const StateOfGame& state) const;
+	//Other Zombie Functions
 	void RandomizeZombieSpawn();
 	bool CollidesWithZombie();
+	bool BulletCollidesWIthZombie();
+	void DeleteZombie(const int& x, const int& y);
 
 	
 
@@ -54,10 +56,14 @@ private:
 	//Location of zombie
 	int location_zombie_x{ 500 };
 	int location_zombie_y{ 500 };
+	std::vector<std::pair<int, int>> position_zombie;
 
 	//Location of bullet
-	int location_bullet_x{ 0 };
-	int location_bullet_y{ 0 };
+	int location_bullet_x{ location_x };
+	int location_bullet_y{ location_y };
+	bool isShooting{ false };
+	Direction direction_bullet;
+	
 
 	//Direction and state of the tank
 	Direction currentDirection{ Left };
