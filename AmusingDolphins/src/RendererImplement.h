@@ -1,6 +1,6 @@
 #pragma once
 
-#include "image.h"
+#include "Image.h"
 #include "Shader.h"
 
 namespace AmusingDolphins

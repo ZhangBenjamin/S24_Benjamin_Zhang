@@ -144,7 +144,7 @@
     <ClInclude Include="src\codeOpenGL\ImageOpenGL.h" />
     <ClInclude Include="src\codeOpenGL\RendererOpenGL.h" />
     <ClInclude Include="src\codeOpenGL\ShaderOpenGL.h" />
-    <ClInclude Include="src\image.h" />
+    <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\ImageImplement.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Renderer.h" />

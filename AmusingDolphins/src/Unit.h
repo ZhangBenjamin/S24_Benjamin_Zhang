@@ -24,6 +24,7 @@ namespace AmusingDolphins
 		int mXPosition;
 		int mYPosition;
 		friend AMUSING_DOLPHINS_API bool UnitsOverlap(const Unit& a, const Unit& b);
+		friend class Renderer;
 	};
 
 	AMUSING_DOLPHINS_API bool UnitsOverlap(const Unit& a, const Unit& b);

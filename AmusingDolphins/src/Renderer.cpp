@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "codeOpenGL/RendererOpenGL.h"
 
+
 namespace AmusingDolphins 
 {
 	void Renderer::Init()
@@ -23,6 +24,11 @@ namespace AmusingDolphins
 	void Renderer::Draw(Image& pic, Shader& shader, int x, int y)
 	{
 		mInstance->mImplementation->Draw(pic, shader, x, y);
+	}
+
+	void Renderer::Draw(Unit& Unit)
+	{
+		mInstance->mImplementation->Draw(Unit.mImage, Unit.mXPosition, Unit.mYPosition);
 	}
 
 	void Renderer::ClearScreen()

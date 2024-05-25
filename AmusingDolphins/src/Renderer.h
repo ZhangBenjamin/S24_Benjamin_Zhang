@@ -1,8 +1,9 @@
 #pragma once
 #include "pch.h"
 #include "Utility.h"
-#include "image.h"
+#include "Image.h"
 #include "RendererImplement.h"
+#include "Unit.h"
 
 namespace AmusingDolphins 
 {
@@ -13,6 +14,7 @@ namespace AmusingDolphins
 
 		static void Draw(Image& pic, int x, int y);
 		static void Draw(Image& pic, Shader& shader, int x, int y);
+		static void Draw(Unit& Unit);
 		static void ClearScreen();
 
 	private:
