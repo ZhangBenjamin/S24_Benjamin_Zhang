@@ -1,5 +1,6 @@
 #pragma once
 #include "AmusingDolphins.h"
+#include "Timer.h"
 #include <iostream>
 #include <random>
 #include <unordered_map>
@@ -21,6 +22,7 @@ enum Direction {
 class MyGame : public AmusingDolphins::AmusingDolphinsApplication
 {
 public:
+	//These are my three main functions, other functions are just things to help my code
 	virtual void OnUpdate() override;
 	virtual void Initialize();
 	void RunGame();
@@ -44,6 +46,7 @@ public:
 	bool CollidesWithZombie();
 	bool BulletCollidesWIthZombie();
 	void DeleteZombie(const int& x, const int& y);
+	void MoveIdleZombies();
 
 	
 
@@ -56,7 +59,9 @@ private:
 	//Location of zombie
 	int location_zombie_x{ 500 };
 	int location_zombie_y{ 500 };
-	std::vector<std::pair<int, int>> position_zombie;
+	std::vector<AmusingDolphins::Unit> position_zombie;
+	bool isIdle{ false };
+	Direction direction_zombie{ Left };
 
 	//Location of bullet
 	int location_bullet_x{ location_x };
@@ -69,7 +74,8 @@ private:
 	Direction currentDirection{ Left };
 	StateOfGame StateOfTank{ Idle };
 
-
+	//Timer
+	Timer timer;
 	
 };
 	

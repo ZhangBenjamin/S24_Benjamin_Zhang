@@ -6,17 +6,17 @@ void MyGame::OnUpdate()
 	AmusingDolphins::Renderer::ClearScreen();
 	AmusingDolphins::Image background("..\\Assets\\Textures\\concrete_background.png");
 	AmusingDolphins::Renderer::Draw(background, 0, 0);
+	RandomizeZombieSpawn();
 	RunGame();
 
-	if (CollidesWithZombie()) {
-		ChangeStateOfTank(Dead);
-		std::cout << "Hit zombie" << std::endl;
-		AmusingDolphins::Renderer::ClearScreen();
-	}
+	timer.UpdateTimer();
+	timer.DisplayTimer();
+	
 }
 
 void MyGame::Initialize()
 {
+	timer.StartTimer();
 }
 
 void MyGame::RunGame()
@@ -32,7 +32,7 @@ void MyGame::RunGame()
 
 	
 	SetKeyPressedCallback([&](const AmusingDolphins::KeyPressed& event) {
-		if (event.GetKeyCode() == AD_KEY_RIGHT) {
+		if (event.GetKeyCode() == AD_KEY_RIGHT || event.GetKeyCode() == AD_KEY_D) {
 			ChangeStateOfTank(Moving);
 			location_x += 50;
 			if (location_x + 50 > 1000) {
@@ -41,7 +41,7 @@ void MyGame::RunGame()
 			ChangeDirection(Right);
 			std::cout << "Moved Right" << std::endl;
 		}
-		else if (event.GetKeyCode() == AD_KEY_LEFT) {
+		else if (event.GetKeyCode() == AD_KEY_LEFT || event.GetKeyCode() == AD_KEY_A) {
 			ChangeStateOfTank(Moving);
 			location_x -= 50;
 			if (location_x - 50 < -50) {
@@ -50,7 +50,7 @@ void MyGame::RunGame()
 			ChangeDirection(Left);
 			std::cout << "Moved Left" << std::endl;
 		}
-		else if (event.GetKeyCode() == AD_KEY_UP) {
+		else if (event.GetKeyCode() == AD_KEY_UP || event.GetKeyCode() == AD_KEY_W) {
 			ChangeStateOfTank(Moving);
 			location_y += 50;
 			if (location_y + 50 > 800) {
@@ -59,7 +59,7 @@ void MyGame::RunGame()
 			ChangeDirection(Up);
 			std::cout << "Moved Up" << std::endl;
 		}
-		else if (event.GetKeyCode() == AD_KEY_DOWN) {
+		else if (event.GetKeyCode() == AD_KEY_DOWN || event.GetKeyCode() == AD_KEY_S) {
 			ChangeStateOfTank(Moving);
 			location_y -= 50;
 			if (location_y - 50 < -50) {
@@ -107,12 +107,14 @@ void MyGame::RunGame()
 		}
 		AmusingDolphins::Renderer::Draw(tank_bullet, location_bullet_x, location_bullet_y);
 
+		
 		if (BulletCollidesWIthZombie()) {
 			isShooting = false;
 			std::cout << "Bullet hit a zombie!" << std::endl;
 		}
 	}
-	RandomizeZombieSpawn();
+	
+	
 	if (CollidesWithZombie()) {
 		std::cout << "Tank hit a zombie!" << std::endl;
 		location_x = 0;
@@ -132,11 +134,6 @@ void MyGame::RunGame()
 	else if (CurrentDirection() == Down) {
 		AmusingDolphins::Renderer::Draw(tank_down, GetLocationX(), GetLocationY());
 	}
-	
-
-
-	
-
 
 }
 
@@ -201,29 +198,21 @@ void MyGame::RandomizeZombieSpawn()
 
 	for (int i = 0; i < 10; ++i) {
 		ChangeLocationOfZombie(random_x(generator), random_y(generator));
-		position_zombie.push_back({ location_zombie_x, location_zombie_y });
-		AmusingDolphins::Renderer::Draw(Zombie, location_zombie_x, location_zombie_y);
+		position_zombie.push_back({ "..\\Assets\\Textures\\Zombie.png", location_zombie_x, location_zombie_y });
+		AmusingDolphins::Renderer::Draw(position_zombie[i]);
 	}
-	
-	
-	
-
-	
 }
 
 bool MyGame::CollidesWithZombie()
 {
-	int tank_size = 50; 
-	int zombie_size = 50; 
+	int tank_size = 50;
+	int zombie_size = 50;
 
-	for (const auto& pos : position_zombie) {
-		location_zombie_x = pos.first;
-		location_zombie_y = pos.second;
-
-		if (location_x < location_zombie_x + zombie_size &&
-			location_x + tank_size > location_zombie_x &&
-			location_y < location_zombie_y + zombie_size &&
-			location_y + tank_size > location_zombie_y) {
+	for (const AmusingDolphins::Unit& pos : position_zombie) {
+		if (location_x < pos.GetXCoord() + zombie_size &&
+			location_x + tank_size > pos.GetXCoord() &&
+			location_y < pos.GetYCoord() + zombie_size &&
+			location_y + tank_size > pos.GetYCoord()) {
 			return true;
 		}
 	}
@@ -233,32 +222,36 @@ bool MyGame::CollidesWithZombie()
 
 bool MyGame::BulletCollidesWIthZombie()
 {
-	int bullet_size = 20; 
-	int zombie_size = 50; 
+	int bullet_size = 20;
+	int zombie_size = 50;
 
-	for (const auto& pos : position_zombie) {
-		location_zombie_x = pos.first;
-		location_zombie_y = pos.second;
-
-		if (location_bullet_x < location_zombie_x + zombie_size &&
-			location_bullet_x + bullet_size > location_zombie_x &&
-			location_bullet_y < location_zombie_y + zombie_size &&
-			location_bullet_y + bullet_size > location_zombie_y) {
-			DeleteZombie(location_zombie_x, location_zombie_y);
+	for (const AmusingDolphins::Unit& pos : position_zombie) {
+		if (location_bullet_x < pos.GetXCoord() + zombie_size &&
+			location_bullet_x + bullet_size > pos.GetXCoord() &&
+			location_bullet_y < pos.GetYCoord() + zombie_size &&
+			location_bullet_y + bullet_size > pos.GetYCoord()) {
+			DeleteZombie(pos.GetXCoord(), pos.GetYCoord());
 			return true;
 		}
 	}
 	return false;
+	
 }
 
 void MyGame::DeleteZombie(const int& x, const int& y)
 {
+	int bullet_size = 20;
+	int zombie_size = 50;
 	for (int i = 0; i < position_zombie.size(); ++i) {
-		if (position_zombie[i].first == x && position_zombie[i].second == y) {
+		if (position_zombie[i].GetXCoord() == x && position_zombie[i].GetYCoord() == y) {
 			position_zombie.erase(position_zombie.begin() + i);
 			break;
 		}
 	}
+}
+
+void MyGame::MoveIdleZombies()
+{
 }
 
     
