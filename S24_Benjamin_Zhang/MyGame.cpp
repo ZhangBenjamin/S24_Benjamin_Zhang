@@ -4,13 +4,27 @@
 void MyGame::OnUpdate() 
 {
 	AmusingDolphins::Renderer::ClearScreen();
-	AmusingDolphins::Image background("..\\Assets\\Textures\\concrete_background.png");
-	AmusingDolphins::Renderer::Draw(background, 0, 0);
-	RandomizeZombieSpawn();
-	RunGame();
+	if (!gameStarted) {
+		startScreen.DisplayStartScreen();
+		
 
-	timer.UpdateTimer();
-	timer.DisplayTimer();
+		SetKeyPressedCallback([&](const AmusingDolphins::KeyPressed& event) {
+			if (event.GetKeyCode() == AD_KEY_LEFT_SHIFT || event.GetKeyCode() == AD_KEY_RIGHT_SHIFT) {
+				gameStarted = true;
+				std::cout << "Shift key pressed. Starting game..." << std::endl;
+				timer.StartTimer();
+			}
+			});
+	}
+	else {
+		AmusingDolphins::Image background("..\\Assets\\Textures\\concrete_background.png");
+		AmusingDolphins::Renderer::Draw(background, 0, 0);
+		RandomizeZombieSpawn();
+		RunGame();
+
+		timer.UpdateTimer();
+		timer.DisplayTimer();
+	}
 	
 }
 
