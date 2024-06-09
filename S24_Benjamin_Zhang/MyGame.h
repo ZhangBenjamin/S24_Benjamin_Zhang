@@ -1,6 +1,7 @@
 #pragma once
 #include "AmusingDolphins.h"
 #include "Timer.h"
+#include "StartScreen.h"
 #include <iostream>
 #include <random>
 #include <unordered_map>
@@ -77,6 +78,8 @@ private:
 	//Timer
 	Timer timer;
 	
+	bool gameStarted = false;
+	Start startScreen;
 };
 	
 
